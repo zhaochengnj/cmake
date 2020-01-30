@@ -36,3 +36,28 @@ markdown(https://help.github.com/articles/markdown-basics/)
 * CMAKE_CURRENT_SOURCE_DIR
 * CMAKE_CURRRENT_BINARY_DIR
 * ADD_SUBDIRECTORY(source_dir [binary_dir] [EXCLUDE_FROM_ALL])
+
+# cpp-flag -case5
+ref(https://cmake.org/pipermail/cmake/2006-February/008370.html)
+
+SET(CMAKE_CXX_FLAGS "-Wall")
+SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -g")
+SET(CMAKE_CXX_FLAGS_RELEASE "-O2")
+SET(CMAKE_CXX_FLAGS_DEBUG  "-O0 -g")
+
+cmake .. -DCMAKE_BUILD_TYPE=Debug
+make VERBOSE=1
+/usr/bin/g++    -Wall -O0 -g   -o CMakeFiles/test.dir/main.cpp.o -c /media/diskb/github/test/main.cpp
+
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make VERBOSE=1
+/usr/bin/g++    -Wall -O2   -o CMakeFiles/test.dir/main.cpp.o -c /media/diskb/github/test/main.cpp
+
+cmake .. -DCMAKE_BUILD_TYPE=RELWITHDEBINFO
+make VERBOSE=1
+/usr/bin/g++    -Wall -O2 -g   -o CMakeFiles/test.dir/main.cpp.o -c /media/diskb/github/test/main.cpp
+
+# 内部宏-case5
+* cmake .. -DCMAKE_BUILD_TYPE=DEBUG -DCMAKE_CXX_FLAGS="-DOUTPUT"
+* make VERBOSE=1
+* ./CMakeFiles/test.dir/link.txt:1:/usr/bin/g++  -DOUTPUT -Wall -O0 -g  -rdynamic CMakeFiles/test.dir/main.o  -o test
